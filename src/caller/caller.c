@@ -5,7 +5,7 @@
 void caller_function(int call_algo, char *file_name) {
     switch(call_algo) {
         case COMP_HUFFMAN :
-            printf("Here compression by huffman will be done\n");
+            compress_by_huffman(file_name);
             break;
         case COMP_LZW :
             printf("Here compression by LZW will be done\n");
