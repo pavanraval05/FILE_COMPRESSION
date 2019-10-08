@@ -1,67 +1,43 @@
 #include<stdio.h>
-#include<stdlib.h>
-#include<errno.h>
 #include<unistd.h>
-#include<string.h>
-#include"huffman_compression.h"
-
-int i = 0,c_flag = 0, d_flag = 0, r_flag = 0;
-
-void call_compression(char *str, char *filename);
-
-void call_de_compression(char *str, char *filename);
+#include<getopt.h>
+#include"caller/caller.h"
 
 int main(int argc, char* argv[]) {
+    int c = 0, caller_flag = 0;
+    char *file_name = NULL; 
 
-    while(--argc) {
-        if(*argv[++i] == '-') {
-            switch(*(argv[i]+1)) {
-                case 'c':
-                    call_compression(argv[i]+1,argv[i+1]);
-                    argc--;
-                    i++;
-                    break;
-                case 'd':
-                    call_de_compression(argv[i]+1,argv[i+1]);
-                    argc--;
-                    i++;
-                    break;
-                case 'R':
-                    r_flag = 1;
-                    printf("The -R flag is set to 1\n");
-                    break;
-                default:
-                    printf("Usage of code: ./exe flag filename\n");
-                    exit(1);
-                    break;
-            }
+    if(argc == 1) {
+        caller_flag = -1; 
+    }
+    while((c = getopt(argc, argv, "cdh:l:i:R")) != -1) {
+        switch(c) {
+            case 'c':
+                caller_flag |= COMP;
+                break;
+            case 'd':
+                caller_flag |= DECOMP;
+                break;
+            case 'h':
+                caller_flag |= HUFFMAN;
+                file_name = optarg;
+                break;
+            case 'l':
+                caller_flag |= LZW;
+                file_name = optarg;
+                break;
+            case 'i':
+                caller_flag |= DCT;
+                break;
+            case 'R':
+                caller_flag |= RECUR;
+                break;
+            default:
+                error_handler(ERR_EXIT);
+                break;
         }
-        else {
-            printf("Usage of code: ./exe flag filename\n");
-            exit(1);    
-        }
-    } 
+    }    
+    caller_function(caller_flag, file_name);
     return 0;
-}
-
-void call_compression(char *str,char *filename) {
-    if(strlen(str) == 1 && !c_flag) {
-        c_flag = 1;
-        if(filename!=NULL) {
-            compress_by_huffman(filename);
-        } 
-        else {
-            printf("Undefined behaviour try using --help\n");
-            exit(1);
-        }
-    }
-    else {
-        printf("Undefined behaviour try using --help\n");
-        exit(1); 
-    }
-}
-
-void call_de_compression(char *str, char *filename) {
-
 }
 
