@@ -13,7 +13,7 @@ void compress_by_huffman(char *file_name) {
     get_char_table(&char_table);
     get_char_freq(&char_table, file_name);
     dist_chars = get_dist_chars(char_table);
-    create_priority_quee(&A, dist_char, char_table);
+    create_priority_quee(&A, dist_chars, char_table);
 
 }
 
@@ -63,3 +63,16 @@ long int get_dist_chars(tree_elements *char_table) {
     return count;
 }
 
+void create_priority_quee(priority_quee *A, int num_dist_char, tree_elements *char_table) {
+    heap h;
+    priority_quee temp;
+    InitHeap(&h);
+
+    for(int i = 0; i < NUM_CHARS; i++) {
+        if(get_frequency(char_table, i) != 0) {
+            temp = get_heap_element(get_character(char_table, i), get_frequency(char_table, i));     
+            Insert_minHeap(&h, temp);
+        } 
+    }
+    printHeap(h);
+}
