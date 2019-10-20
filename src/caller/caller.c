@@ -1,7 +1,6 @@
 #include"caller.h"
 #include"../huffman/huffman_compression.h"
 
-
 void caller_function(int call_algo, char *file_name) {
     switch(call_algo) {
         case COMP_HUFFMAN :
