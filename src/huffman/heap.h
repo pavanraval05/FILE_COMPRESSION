@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define HEAP_CAPACITY 1024
 
 typedef struct tree_elements {
     char ch;
@@ -15,11 +14,12 @@ typedef struct priority_quee {
 } priority_quee;
 
 typedef struct heap {
-    priority_quee tree[HEAP_CAPACITY]; 
+    priority_quee **tree; 
     int index;
+    int end;
 } heap;
 
-void InitHeap(heap *h);
+void InitHeap(heap *h, int max);
 
 int isHeapFull(heap h);
 
@@ -41,11 +41,17 @@ int smallest(heap *h, int parent, int child1, int child2);
 
 void printHeap(heap h);
 
-priority_quee *Create_sub_tree(heap *h);
+void destroyHeap(heap *h);
 
 /* Some other functions provided to write and read data form
  * the priority_quee and tree_elements ADTs
  */
+
+void remove_priority_quee(priority_quee *ptr);
+
+void traverse_priority_quee(priority_quee *node);
+
+priority_quee Create_subtree(priority_quee *ptr1, priority_quee *ptr2);
 
 priority_quee get_heap_element(char ch, long int frequency);
 

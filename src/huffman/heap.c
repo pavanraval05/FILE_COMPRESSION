@@ -4,15 +4,17 @@
  * zero baiscally empty heap
  */
 
-void InitHeap(heap *h) {
+void InitHeap(heap *h, int HEAP_CAPACITY) {
+    h->tree = (priority_quee **)malloc(sizeof(priority_quee *) * HEAP_CAPACITY);
     h->index = 0;
+    h->end = HEAP_CAPACITY;
 }
 
 /* Checks if the heap is full or not
  */
 
 int isHeapFull(heap h) {
-    if(h.index == HEAP_CAPACITY) {
+    if(h.index == h.end) {
         return 1;
     }
     return 0;
@@ -46,7 +48,7 @@ int isSizeOne(heap h) {
  */
 
 int compare_freq(heap *h, int a, int b) {
-    if(h->tree[a].data.frequency > h->tree[b].data.frequency) {
+    if(h->tree[a]->data.frequency > h->tree[b]->data.frequency) {
         return 1;
     }
     return -1;
@@ -58,8 +60,9 @@ int compare_freq(heap *h, int a, int b) {
 
 void Insert_minHeap(heap *h, priority_quee temp) {
     int children, parent;
-    
-    h->tree[h->index] = temp;  
+    h->tree[h->index] = (priority_quee *)malloc(sizeof(priority_quee));  
+    *(h->tree[h->index]) = temp;
+
     children = h->index;
     parent = (children-1)/2;
     while(children > 0) {
@@ -80,7 +83,7 @@ void Insert_minHeap(heap *h, priority_quee temp) {
  */
 
 void swap(heap *h, int a, int b) {
-    priority_quee temp;
+    priority_quee *temp;
     temp = h->tree[a];
     h->tree[a] = h->tree[b];
     h->tree[b] = temp;
@@ -88,15 +91,15 @@ void swap(heap *h, int a, int b) {
 
 /* Removes and returns the root element of the minheap 
  * Note that minheap property is not changed 
- * (Always returns the minimum element from the element)
+ * (Always returns the pointer to minimum element from the heap)
  */
 
-priority_quee *Remove_minHeap(heap *h) {
+priority_quee* Remove_minHeap(heap *h) {
 
     int child1, child2, parent, min_index; 
     priority_quee *temp;
 
-    temp = &(h->tree[0]); 
+    temp = h->tree[0]; 
     h->tree[0] = h->tree[h->index-1];
     (h->index)--; 
     
@@ -149,14 +152,64 @@ int smallest(heap *h, int parent, int child1, int child2) {
 
 void printHeap(heap h) {
     for(int i = 0; i < h.index; i++) {
-        printf("%ld\t",h.tree[i].data.frequency);
+        printf("%ld\t",h.tree[i]->data.frequency);
     }
     printf("\n");
+}
+
+/* Destroys the heap data structure
+ * Frees all the memory allocated.
+ */
+
+void destroyHeap(heap *h) {
+    free(h->tree); 
+    return;
 }
 
 /* GIVEN BELOW FUNCTIONS PROVIDE THE ACCESS TO 
  * CHANGE THE DATA IN ADTs - tree_elements and priority_quee.
  */
+
+/* Deletes the priority quee hierarchy 
+ * created for huffman encoding.
+ */
+
+void remove_priority_quee(priority_quee *ptr) {
+    if(ptr == NULL) {
+        return;
+    }
+    else {
+        remove_priority_quee(ptr->left);
+        remove_priority_quee(ptr->right);
+        free(ptr);
+    }
+}
+
+void traverse_priority_quee(priority_quee *node) {
+    if(node == NULL) {
+        return;
+    }
+    else {
+        printf("%d %ld\t",node->data.ch, node->data.frequency);
+        traverse_priority_quee(node->left);
+        traverse_priority_quee(node->right);
+    }
+}
+
+
+/* Creates a subtree and returns a priority_quee variable
+ * containg the left and right child passed as pointer
+ * arguments. (note left node values will always be minimum)     
+ */
+
+priority_quee Create_subtree(priority_quee *ptr1, priority_quee *ptr2) {
+    priority_quee node;
+    node.left = ptr1;
+    node.right = ptr2;
+    node.data.frequency = ptr1->data.frequency + ptr2->data.frequency;
+    node.data.ch = '\0';
+    return node;     
+}
 
 /* Functions returns a heap element given character
  * and frequency as argument.
@@ -221,6 +274,4 @@ void write_frequency(tree_elements *p, long int f) {
 void write_charachter(tree_elements *p, char c) {
     (*p).ch = c; 
 }
-
-
 

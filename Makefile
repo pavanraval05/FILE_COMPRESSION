@@ -8,7 +8,7 @@ MFLAGS = -lm
 CC = gcc
 SEV = -fsanitize=address 
 
-FLAGS = -std=c99 $(CFLAGS) 
+FLAGS = -std=c99 $(SEV) $(CFLAGS) 
 
 SOURCE = 	$(SRC)/main.c\
 	$(SRC)/$(HUFFMAN)/heap.c\
