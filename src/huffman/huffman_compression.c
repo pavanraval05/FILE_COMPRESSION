@@ -7,13 +7,13 @@
 
 void compress_by_huffman(char *file_name) {
     long int dist_chars;
-    tree_elements *tree_list, *char_table;
-    
+    tree_elements *char_table;
+    priority_quee A;
+
     get_char_table(&char_table);
     get_char_freq(&char_table, file_name);
     dist_chars = get_dist_chars(char_table);
-    get_tree_elements(&tree_list ,dist_chars, char_table);  
-
+    create_priority_quee(&A, dist_char, char_table);
 
 }
 
@@ -32,8 +32,8 @@ void get_char_table(tree_elements **char_table) {
         exit(1);
     }
     for(i = 0; i < NUM_CHARS; i++) {
-        temp[i].ch = (char)i;
-        temp[i].frequency = 0;
+        write_charachter(temp + i, (char)i);
+        write_frequency(temp + i, 0);
     }
     *char_table = temp;
 }
@@ -49,66 +49,17 @@ void get_char_freq(tree_elements **char_table, char *file_name) {
     open_file_read(&fd, file_name);
     while(freadchar(fd, &c)) {
         index = (int)c; 
-        temp[index].frequency += 1; 
+        write_frequency(temp + index, get_frequency(temp, index) + 1);
     }  
 }
 
 long int get_dist_chars(tree_elements *char_table) {
     int i = 0, count = 0;
     for(i = 0; i < NUM_CHARS; i++) {
-        if(char_table[i].frequency != 0) {
+        if(get_frequency(char_table, i) != 0) {
             count++;
         }
     }
     return count;
 }
 
-void get_tree_elements(tree_elements **tree_list, int num_dist_char, tree_elements *char_table) {
-    tree_elements *temp; 
-    int i = 0,index = 0; 
-    temp = (tree_elements *)malloc(sizeof(tree_elements) * num_dist_char); 
-    if(temp == NULL) {
-        perror("The error is :");
-        exit(errno);
-    } 
-    for(i = 0; i < NUM_CHARS; i++) {
-        if(char_table[i].frequency != 0) {
-            temp[index] = char_table[i];
-            index++;
-        }
-    } 
-    Qsort_tree(temp, 0, num_dist_char - 1);
-    *tree_list = temp;
-} 
-
-void Qsort_tree(tree_elements *arr, int first, int last) {
-    int i, j, pivot; 
-    if(first < last) {
-        pivot = first;
-        i = first;
-        j = last;
-        while(i < j) {
-            while(arr[i].frequency <= arr[pivot].frequency && i < last) {
-                i++;
-            }
-            while(arr[j].frequency > arr[pivot].frequency) {
-                j--;
-            }
-            if(i < j) {
-                swap_tree_el(arr + i, arr + j);
-            }
-        }
-        swap_tree_el(arr + pivot, arr + j);
-        Qsort_tree(arr, first, j - 1);
-        Qsort_tree(arr, j + 1, last);
-    }
-}
-
-/* Swap function for swaping tree_list data type.
- */
-void swap_tree_el(tree_elements *a, tree_elements *b) {
-    tree_elements temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
