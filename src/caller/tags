@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+COMP	caller.h	7;"	d
+COMP_DCT	caller.h	14;"	d
+COMP_HUFFMAN	caller.h	12;"	d
+COMP_LZW	caller.h	13;"	d
+DCT	caller.h	10;"	d
+DECOMP	caller.h	6;"	d
+DECOMP_DCT	caller.h	18;"	d
+DECOMP_HUFFMAN	caller.h	16;"	d
+DECOMP_LZW	caller.h	17;"	d
+ERR_COMP	caller.h	/^    ERR_COMP,     $/;"	e	enum:ERR_STATES
+ERR_DECOMP	caller.h	/^    ERR_DECOMP,$/;"	e	enum:ERR_STATES
+ERR_EXIT	caller.h	/^    ERR_EXIT$/;"	e	enum:ERR_STATES
+ERR_STATES	caller.h	/^enum ERR_STATES {$/;"	g
+ERR_USAGE	caller.h	/^    ERR_USAGE = -1, $/;"	e	enum:ERR_STATES
+HUFFMAN	caller.h	8;"	d
+LZW	caller.h	9;"	d
+RECUR	caller.h	5;"	d
+caller_function	caller.c	/^void caller_function(int call_algo, char *file_name) {$/;"	f
+error_handler	caller.c	/^void error_handler(int err_num) {$/;"	f

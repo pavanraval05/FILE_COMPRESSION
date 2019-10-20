@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Huffman_tree	huffman_compression.h	/^typedef priority_quee *Huffman_tree;$/;"	t
+NUM_CHARS	huffman_compression.h	1;"	d
+Qsort_tree	huffman_compression.c	/^void Qsort_tree(tree_elements *arr, int first, int last) {$/;"	f
+ch	huffman_compression.h	/^    char ch;$/;"	m	struct:huffman_tree_element
+ch	huffman_compression.h	/^    char ch;$/;"	m	struct:priority_quee
+compress_by_huffman	huffman_compression.c	/^void compress_by_huffman(char *file_name) {$/;"	f
+frequency	huffman_compression.h	/^    long int frequency;$/;"	m	struct:huffman_tree_element
+get_char_freq	huffman_compression.c	/^void get_char_freq(tree_elements **char_table, char *file_name) {$/;"	f
+get_char_table	huffman_compression.c	/^void get_char_table(tree_elements **char_table) {$/;"	f
+get_dist_chars	huffman_compression.c	/^long int get_dist_chars(tree_elements *char_table) {$/;"	f
+get_tree_elements	huffman_compression.c	/^void get_tree_elements(tree_elements **tree_list, int num_dist_char, tree_elements *char_table) {$/;"	f
+huffman_tree_element	huffman_compression.h	/^typedef struct huffman_tree_element {$/;"	s
+left	huffman_compression.h	/^    struct priority_quee *left;$/;"	m	struct:priority_quee	typeref:struct:priority_quee::priority_quee
+priority_quee	huffman_compression.h	/^typedef struct priority_quee {$/;"	s
+priority_quee	huffman_compression.h	/^} priority_quee; $/;"	t	typeref:struct:priority_quee
+right	huffman_compression.h	/^    struct priority_quee *right;$/;"	m	struct:priority_quee	typeref:struct:priority_quee::priority_quee
+sum_frequency	huffman_compression.h	/^    int sum_frequency;     $/;"	m	struct:priority_quee
+swap_tree_el	huffman_compression.c	/^void swap_tree_el(tree_elements *a, tree_elements *b) {$/;"	f
+tree_elements	huffman_compression.h	/^} tree_elements;  $/;"	t	typeref:struct:huffman_tree_element

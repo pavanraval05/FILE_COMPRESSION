@@ -1,0 +1,45 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+COMP	caller/caller.h	7;"	d
+COMP_DCT	caller/caller.h	14;"	d
+COMP_HUFFMAN	caller/caller.h	12;"	d
+COMP_LZW	caller/caller.h	13;"	d
+DCT	caller/caller.h	10;"	d
+DECOMP	caller/caller.h	6;"	d
+DECOMP_DCT	caller/caller.h	18;"	d
+DECOMP_HUFFMAN	caller/caller.h	16;"	d
+DECOMP_LZW	caller/caller.h	17;"	d
+ERR_COMP	caller/caller.h	/^    ERR_COMP,     $/;"	e	enum:ERR_STATES
+ERR_DECOMP	caller/caller.h	/^    ERR_DECOMP,$/;"	e	enum:ERR_STATES
+ERR_EXIT	caller/caller.h	/^    ERR_EXIT$/;"	e	enum:ERR_STATES
+ERR_STATES	caller/caller.h	/^enum ERR_STATES {$/;"	g
+ERR_USAGE	caller/caller.h	/^    ERR_USAGE = -1, $/;"	e	enum:ERR_STATES
+HUFFMAN	caller/caller.h	8;"	d
+LZW	caller/caller.h	9;"	d
+Qsort_file	huffman/huffman_compression.c	/^void Qsort_file(char *arr, long int first, long int last){$/;"	f
+Qsort_tree	huffman/huffman_compression.c	/^void Qsort_tree(tree_elements *arr, int first, int last) {$/;"	f
+RECUR	caller/caller.h	5;"	d
+caller_function	caller/caller.c	/^void caller_function(int call_algo) {$/;"	f
+ch	huffman/huffman_compression.h	/^    char ch;$/;"	m	struct:huffman_tree_element
+compress_by_huffman	huffman/huffman_compression.c	/^void compress_by_huffman(char *file_name) {$/;"	f
+error_handler	caller/caller.c	/^void error_handler(int err_num) {$/;"	f
+freadchar	FILE_IO/File_IO.c	/^int freadchar(int fd, char *ch) {$/;"	f
+freadline	FILE_IO/File_IO.c	/^int freadline(int fd, char *str) {    $/;"	f
+frequency	huffman/huffman_compression.h	/^    long int frequency;$/;"	m	struct:huffman_tree_element
+get_dist_chars	huffman/huffman_compression.c	/^long int get_dist_chars(char *arr) {$/;"	f
+get_file_chars	FILE_IO/File_IO.c	/^char *get_file_chars(int fd, long int file_size) {$/;"	f
+get_file_size	FILE_IO/File_IO.c	/^long int get_file_size(char *file_name) {$/;"	f
+get_next_token	huffman/huffman_compression.c	/^tree_elements get_next_token(char *arr) {$/;"	f
+get_tree_elements	huffman/huffman_compression.c	/^tree_elements *get_tree_elements(char *arr, long int num_dist_chars) {$/;"	f
+huffman_tree_element	huffman/huffman_compression.h	/^typedef struct huffman_tree_element {$/;"	s
+main	main.c	/^int main(int argc, char* argv[]) {$/;"	f
+open_file_read	FILE_IO/File_IO.c	/^void open_file_read(int *fd, char *file_name) {$/;"	f
+open_file_write	FILE_IO/File_IO.c	/^void open_file_write(int *fd, char *file_name) { $/;"	f
+sort_file	huffman/huffman_compression.c	/^char *sort_file(char *file_name) {    $/;"	f
+swap_chars	huffman/huffman_compression.c	/^void swap_chars(char *a, char *b) { $/;"	f
+swap_tree_el	huffman/huffman_compression.c	/^void swap_tree_el(tree_elements *a, tree_elements *b) {$/;"	f
+tree_elements	huffman/huffman_compression.h	/^} tree_elements;  $/;"	t	typeref:struct:huffman_tree_element
