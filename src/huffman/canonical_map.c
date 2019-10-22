@@ -43,6 +43,8 @@ void encode_file(codebook canonical_code[], int num_symbols, char *file_name) {
                     BUFFER |= x;
                 }
                 write(fdc, &BUFFER, 1);
+                print_buffer(BUFFER);
+
                 index = 0;
                 bit_string_index = 0;
                 if(freadchar(fd, &ch) != 0) {
@@ -69,8 +71,8 @@ void encode_file(codebook canonical_code[], int num_symbols, char *file_name) {
                     BUFFER = BUFFER << 1;
                     BUFFER |= x;
                 }
-                bit_string_index = 0;
                 if(freadchar(fd, &ch) != 0) {
+                    bit_string_index = 0;
                     pos = search_codebook(canonical_code, num_symbols, ch); 
                     strcpy(str, canonical_code[pos].str);
                     len = strlen(str);
@@ -85,17 +87,24 @@ void encode_file(codebook canonical_code[], int num_symbols, char *file_name) {
                     }
                 }
                 else {
+                    for(;index < BUFSIZE; index++) {
+                        BUFFER = BUFFER << 1;
+                        BUFFER |= 1;
+                    }
                     write(fdc, &BUFFER, 1);
+                    print_buffer(BUFFER); 
                     next_state = END;
                 }
                 break;
             case NOT_ENOUGH_BUF_SPACE:
-                for(; index < BUFSIZE; index++, bit_string_index++) {
+                for(; index < BUFSIZE; index++) {
                     x = str[bit_string_index] - '0';
                     BUFFER = BUFFER << 1;
                     BUFFER |= x; 
+                    bit_string_index++;
                 }
-                write(fdc, &BUFFER, 1);
+                write(fdc, &BUFFER, 1); 
+                print_buffer(BUFFER); 
                 index = 0;
                 BUFFER = 0;
                 len = strlen(str);
@@ -114,6 +123,19 @@ void encode_file(codebook canonical_code[], int num_symbols, char *file_name) {
     }
        
 }
+
+void print_buffer(int num) {
+    int arr[BUFSIZE];
+    for(int i = 0; i < BUFSIZE; i++) {
+        arr[BUFSIZE - i -1] = num & 01;
+        num = num >> 1;
+    }
+    for(int i = 0; i < BUFSIZE; i++) {
+        printf("%d\t", arr[i]);
+    }
+    printf("\n");
+}
+
 
 int search_codebook(codebook temp[], int num, char ch) {
     int i;

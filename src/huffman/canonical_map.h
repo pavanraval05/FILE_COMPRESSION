@@ -48,5 +48,6 @@ void encode_file(codebook canonical_code[], int num_symbols, char *file_name);
 
 int search_codebook(codebook temp[], int num, char ch);
 
+void print_buffer(int num);
 
 
