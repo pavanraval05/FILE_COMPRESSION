@@ -10,7 +10,7 @@ void open_file_read(int *fd, char *file_name) {
 }
 
 void open_file_write(int *fd, char *file_name) { 
-    *fd = open(file_name, O_WRONLY, S_IRUSR | S_IWUSR);
+    *fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if(*fd == -1) {
         perror("The error is - ");
         exit(errno);

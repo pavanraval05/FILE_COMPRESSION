@@ -40,7 +40,6 @@ int isSizeOne(heap h) {
     }
     return 0;
 }
-
 /* Compares two heap elements based on the frequency
  * heap element contains - character and frequency
  * returns 1 if index a has high frequency  
@@ -152,7 +151,7 @@ int smallest(heap *h, int parent, int child1, int child2) {
 
 void printHeap(heap h) {
     for(int i = 0; i < h.index; i++) {
-        printf("%ld\t",h.tree[i]->data.frequency);
+        printf("%d %ld\t",h.tree[i]->data.ch, h.tree[i]->data.frequency);
     }
     printf("\n");
 }
@@ -170,6 +169,14 @@ void destroyHeap(heap *h) {
  * CHANGE THE DATA IN ADTs - tree_elements and priority_quee.
  */
 
+/* Checks if it is the leaf node or not
+ */
+
+int IsLeaf(priority_quee temp) {
+    return (!temp.left && !temp.right);
+}
+
+
 /* Deletes the priority quee hierarchy 
  * created for huffman encoding.
  */
@@ -184,6 +191,10 @@ void remove_priority_quee(priority_quee *ptr) {
         free(ptr);
     }
 }
+
+/* Traverses the quee(heap) and prints the data in 
+ * preorder manner (root -> left child -> right child).
+ */
 
 void traverse_priority_quee(priority_quee *node) {
     if(node == NULL) {
@@ -207,7 +218,7 @@ priority_quee Create_subtree(priority_quee *ptr1, priority_quee *ptr2) {
     node.left = ptr1;
     node.right = ptr2;
     node.data.frequency = ptr1->data.frequency + ptr2->data.frequency;
-    node.data.ch = '\0';
+    node.data.ch = EOF;
     return node;     
 }
 
@@ -274,4 +285,3 @@ void write_frequency(tree_elements *p, long int f) {
 void write_charachter(tree_elements *p, char c) {
     (*p).ch = c; 
 }
-

@@ -6,16 +6,25 @@
  */
 
 void compress_by_huffman(char *file_name) {
-    int dist_chars;
+    int dist_chars, arr[MAX_BITS];
     tree_elements *char_table;
     priority_quee *A;
+    codebook *huffman_code, *canonical_code;
 
     get_char_table(&char_table);
     get_char_freq(&char_table, file_name);
     dist_chars = get_dist_chars(char_table);
     create_priority_quee(&A, dist_chars, char_table);
+    
+    huffman_code = get_codebook(dist_chars); 
+    Get_Huffman_bit_strings(A, huffman_code, arr, 0); 
+    canonical_code = map_bit_strings(huffman_code, dist_chars);  
+    print_bit_strings(canonical_code, dist_chars);
+    encode_file(canonical_code, dist_chars ,file_name);
 
     
+    free(huffman_code);
+    free(canonical_code);
     remove_priority_quee(A);
 }
 
@@ -56,6 +65,10 @@ void get_char_freq(tree_elements **char_table, char *file_name) {
     close(fd);
 }
 
+/* Function gets the count of distinct characters
+ * in charater table.
+ */
+
 int get_dist_chars(tree_elements *char_table) {
     int i = 0, count = 0;
     for(i = 0; i < NUM_CHARS; i++) {
@@ -65,6 +78,11 @@ int get_dist_chars(tree_elements *char_table) {
     }
     return count;
 }
+
+/* Creates a priority quee based on the distinct
+ * characters and corresponding frequency.
+ * (MIN HEAP is implemented as priority quee)
+ */
 
 void create_priority_quee(priority_quee **A, int num_dist_char, tree_elements *char_table) {
     heap h;
@@ -77,8 +95,6 @@ void create_priority_quee(priority_quee **A, int num_dist_char, tree_elements *c
             Insert_minHeap(&h, temp);
         } 
     }
-    printHeap(h);
-    
     while(!isSizeOne(h)) {
         ptr1 = Remove_minHeap(&h);
         ptr2 = Remove_minHeap(&h); 
@@ -91,6 +107,37 @@ void create_priority_quee(priority_quee **A, int num_dist_char, tree_elements *c
     destroyHeap(&h); 
     free(char_table); 
 }
+
+void Get_Huffman_bit_strings(priority_quee *A, codebook *temp,int arr[], int index) {
+    static int i = 0;
+    if(A->left) {
+        arr[index] = 0;
+        Get_Huffman_bit_strings(A->left, temp, arr, index + 1);
+    }    
+    if(A->right) {
+        arr[index] = 1;
+        Get_Huffman_bit_strings(A->right, temp, arr, index + 1);
+    }
+    if(IsLeaf(*A)) {
+        temp[i].symbol = get_quee_character(*A); 
+        get_bit_string(temp[i].str, arr, index);
+        i++;
+    }
+}
+
+void get_bit_string(char *str, int arr[], int index) {
+    int i = 0;
+    for(i = 0; i < index; i++) {
+        if(arr[i]) {
+            str[i] = '1';
+        }
+        else {
+            str[i] = '0'; 
+        }
+    }
+    str[i] = '\0'; 
+}
+
 
 
 

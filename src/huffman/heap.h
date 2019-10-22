@@ -47,6 +47,12 @@ void destroyHeap(heap *h);
  * the priority_quee and tree_elements ADTs
  */
 
+int IsLeaf(priority_quee temp);
+
+long int get_quee_frequency(priority_quee temp);
+
+char get_quee_character(priority_quee temp);
+
 void remove_priority_quee(priority_quee *ptr);
 
 void traverse_priority_quee(priority_quee *node);
