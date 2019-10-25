@@ -11,17 +11,28 @@ void compress_by_huffman(char *file_name) {
     priority_quee *A;
     codebook *huffman_code, *canonical_code;
 
+    // Get a character table containing 256 ASCII characters.
     get_char_table(&char_table);
+
+    // Get the frequency count of characters present in file.
     get_char_freq(&char_table, file_name);
+    
+    // Get the number of distinct characters present in the file.
     dist_chars = get_dist_chars(char_table);
+
+    // Create a priority_Quee for based on character frequencys.
     create_priority_quee(&A, dist_chars, char_table);
     
+    // Get the bit strings for each character.
     huffman_code = get_codebook(dist_chars); 
     Get_Huffman_bit_strings(A, huffman_code, arr, 0); 
-    canonical_code = map_bit_strings(huffman_code, dist_chars);  
-    print_bit_strings(canonical_code, dist_chars);
-    encode_file(canonical_code, dist_chars ,file_name);
+    
+    // Map the bits strings to get the canonical codes , based on the bit lenghts.
+    canonical_code = map_bit_strings(huffman_code, dist_chars); 
 
+    // Call encode function to get compressed file. 
+    encode_file(canonical_code, dist_chars ,file_name); 
+    
     
     free(huffman_code);
     free(canonical_code);
@@ -92,21 +103,34 @@ void create_priority_quee(priority_quee **A, int num_dist_char, tree_elements *c
     for(int i = 0; i < NUM_CHARS; i++) {
         if(get_frequency(char_table, i) != 0) {
             temp = get_heap_element(get_character(char_table, i), get_frequency(char_table, i));     
+            // Insert every character encontered in the MIN-HEAP.
             Insert_minHeap(&h, temp);
         } 
     }
     while(!isSizeOne(h)) {
+        // Get the 1st minimum element.
         ptr1 = Remove_minHeap(&h);
+
+        // Get the 2nd minimum element.
         ptr2 = Remove_minHeap(&h); 
+        
+        // Form a subtree based on the 2 minimum elements extracted.
         temp = Create_subtree(ptr1, ptr2);
+        
+        // Insert the new tree element in the MIN-HEAP.
         Insert_minHeap(&h, temp);
     } 
+    // Remove the last element left in HEAP, this is the root of huffman tree. 
     ptr1 = Remove_minHeap(&h);  
     *A = ptr1;
 
     destroyHeap(&h); 
     free(char_table); 
 }
+
+/* Gets the huffman bit strings for each character 
+ * using huffman tree by inoder traversing  
+ */
 
 void Get_Huffman_bit_strings(priority_quee *A, codebook *temp,int arr[], int index) {
     static int i = 0;
@@ -125,6 +149,10 @@ void Get_Huffman_bit_strings(priority_quee *A, codebook *temp,int arr[], int ind
     }
 }
 
+/* Gets a bit string based on the array  
+ * from 0 to index containing 1 and 0 
+ */
+
 void get_bit_string(char *str, int arr[], int index) {
     int i = 0;
     for(i = 0; i < index; i++) {
@@ -137,7 +165,4 @@ void get_bit_string(char *str, int arr[], int index) {
     }
     str[i] = '\0'; 
 }
-
-
-
 

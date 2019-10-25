@@ -176,7 +176,6 @@ int IsLeaf(priority_quee temp) {
     return (!temp.left && !temp.right);
 }
 
-
 /* Deletes the priority quee hierarchy 
  * created for huffman encoding.
  */

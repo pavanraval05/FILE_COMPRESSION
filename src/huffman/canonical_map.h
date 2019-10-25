@@ -4,6 +4,8 @@
 #include<math.h>
 #include<inttypes.h>
 
+#define EXT ".kp"
+
 #define BUFSIZE 8
 #define MAX_BITS 256
 
@@ -18,19 +20,11 @@ typedef struct codebook {
     char str[MAX_BITS];
 } codebook;
 
-typedef struct encode_decode_tree {
-    char ch; 
-    struct encode_decode_tree *left;
-    struct encode_decode_tree *right;
-} tree;
-
 codebook *get_codebook(int num_symbols);
 
 void print_bit_strings(codebook *temp, int num);
 
 codebook *map_bit_strings(codebook temp[], int num);
-
-tree *get_tree(codebook temp, int num); 
 
 void quick_sort(codebook a[],int l,int u, char ch);
 
@@ -42,7 +36,7 @@ int convert_decimal(char *str);
 
 void decimal_to_string(int num, char *str);
 
-void convert_and_append(int num, char *str);
+void convert_and_append(int num, char *str, int l);
 
 void encode_file(codebook canonical_code[], int num_symbols, char *file_name);
 

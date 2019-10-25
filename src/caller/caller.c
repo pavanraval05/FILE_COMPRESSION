@@ -1,5 +1,6 @@
 #include"caller.h"
 #include"../huffman/huffman_compression.h"
+#include"../huffman/huffman_decompression.h"
 
 void caller_function(int call_algo, char *file_name) {
     switch(call_algo) {
@@ -13,7 +14,7 @@ void caller_function(int call_algo, char *file_name) {
             printf("Here compression by DCT will be done\n");
             break;
         case DECOMP_HUFFMAN :
-            printf("Here decompression by huffman will be done\n");
+            decompress_by_huffman(file_name);
             break;
         case DECOMP_LZW :
             printf("Here decompression by LZW will be done\n");
