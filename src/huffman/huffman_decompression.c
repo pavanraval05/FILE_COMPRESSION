@@ -18,19 +18,20 @@ void check_file_extention(char *file_name) {
  */
 
 void decompress_by_huffman(char *file_name) {
-    int fd, i, j ,len, num_chars = 0, file_size;
+    int fd, i, j ,len, file_size;
+    unsigned int num_chars = 0;
     codebook *code_table, *canonical_codes;
-    tree A, *ptr;
+    tree A, *ptr = NULL;
     
     // Check for file_extension and get file_size
     check_file_extention(file_name);                       
     file_size = get_file_size(file_name);  
 
-    // OPEN compressed file and read the 1st byte
-    // The first byte denotes number of symbol-bit_length pair 
+    // OPEN compressed file and read the 2st byte
+    // The first two bytes denotes number of symbol-bit_length pair 
     open_file_read(&fd, file_name);
-    read(fd, &num_chars, 1);
-    file_size = file_size - 1;
+    read(fd, &num_chars, 2);
+    file_size = file_size - 2;
 
     code_table = get_codebook(num_chars);
     for(i = 0; i < num_chars; i++) {
@@ -48,6 +49,8 @@ void decompress_by_huffman(char *file_name) {
     canonical_codes = map_bit_strings(code_table, num_chars);
     
     // Form a tree based on the canonical codes.
+    // A is the root node.
+    A.left = A.right = NULL;
     for(i = 0; i < num_chars; i++) {
         ptr = &A;
         for(j = 0; j < strlen(canonical_codes[i].str); j++) {
@@ -96,6 +99,7 @@ void decode_file(tree A, int fd, char *file_name, int read_bytes) {
     tokenize_file_name(decomp_file, file_name); 
     open_file_write(&fdd, decomp_file);
 
+    printf("Decoding %s using huffman algorithm ...\n", file_name);
     ptr = &A;
     FIRST_BIT = 1 << (MAX_BUF - 1); 
     
@@ -185,10 +189,9 @@ void destroy_tree(tree A) {
 }
 
 void del_tree(tree *ptr) {
-    if(!ptr->left && !ptr->right) {
+    if(ptr != NULL) {
+        del_tree(ptr->left);
+        del_tree(ptr->right);
         free(ptr);
-        return;
     }
-    del_tree(ptr->left);
-    del_tree(ptr->right);
 }

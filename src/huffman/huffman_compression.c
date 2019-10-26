@@ -25,18 +25,20 @@ void compress_by_huffman(char *file_name) {
     
     // Get the bit strings for each character.
     huffman_code = get_codebook(dist_chars); 
+    
     Get_Huffman_bit_strings(A, huffman_code, arr, 0); 
+    
+    remove_priority_quee(A);
     
     // Map the bits strings to get the canonical codes , based on the bit lenghts.
     canonical_code = map_bit_strings(huffman_code, dist_chars); 
+    
+    free(huffman_code);
 
     // Call encode function to get compressed file. 
     encode_file(canonical_code, dist_chars ,file_name); 
-    
-    
-    free(huffman_code);
+     
     free(canonical_code);
-    remove_priority_quee(A);
 }
 
 /* The Function constructs a character table.
@@ -48,7 +50,7 @@ void compress_by_huffman(char *file_name) {
 void get_char_table(tree_elements **char_table) {
     int i = 0;
     tree_elements *temp;
-    temp = (tree_elements *)malloc(sizeof(tree_elements) * NUM_CHARS);
+    temp = (tree_elements *)malloc(sizeof(tree_elements) * (NUM_CHARS + 1));
     if(temp == NULL) {
         perror("The error is :");
         exit(1);
@@ -69,10 +71,13 @@ void get_char_freq(tree_elements **char_table, char *file_name) {
     char c;
     tree_elements *temp = *char_table;
     open_file_read(&fd, file_name);
-    while(freadchar(fd, &c)) {
+    while(freadchar(fd, &c) > 0) {
         index = (int)c; 
+        if(index < 0) {
+            index = NUM_CHARS/2 - 1 - index; 
+        }
         write_frequency(temp + index, get_frequency(temp, index) + 1);
-    }  
+    } 
     close(fd);
 }
 

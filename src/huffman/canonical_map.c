@@ -13,21 +13,22 @@ void encode_file(codebook code_table[], int num_symbols, char *file_name) {
     int last_bits = 0, cur_state, next_state, len, x, i;
     char ch, str[MAX_BITS];
     
+    printf("Encoding %s using huffman algorithm...\n",file_name);
+
     open_file_read(&fd, file_name);
+    
     //ADD extension for indicating compressed file_name
     strcat(file_name, EXT);
     open_file_write(&fdc, file_name);
-        
-    index = 0;
+    
     // Write the number of symbols in file
-    write(fdc, &num_symbols, 1);
+    write(fdc, &num_symbols, 2);
     for(i = 0; i < num_symbols; i++) {
         x = strlen((code_table[i].str));
         // Write the character and corresponding bit lenght in file
         write(fdc, &x, 1);
         write(fdc, &code_table[i].symbol, 1);
     } 
-
     cur_state = START;
     x = 0;
     bit_string_index = 0;
@@ -147,7 +148,6 @@ void encode_file(codebook code_table[], int num_symbols, char *file_name) {
         }
         cur_state = next_state;
     }
-
     // Write how many bits are to be read for last bit stream.
     write(fdc, &last_bits, 1);
 } 
@@ -200,7 +200,7 @@ codebook *get_codebook(int num_symbols) {
 void print_bit_strings(codebook *temp, int num) {
     printf("SYMBOLS\tFREQUENCY\n");
     for(int i = 0; i < num; i++) {
-        printf("%c %s\n",temp[i].symbol, temp[i].str);  
+        printf("%d %s\n",temp[i].symbol, temp[i].str);  
     }
 }
 
@@ -325,17 +325,16 @@ void quick_sort(codebook a[],int l,int u, char ch) {
         quick_sort(a, j + 1, u, ch);
     }
 }
-int partition(codebook a[],int l,int u, char ch) {
+int partition(codebook a[], int l, int u, char ch) {
     codebook v, temp;
     int i, j;
     v = a[l];
     i = l;
     j = u + 1;
-    do
-    {
+    do {
         do {
             i++;
-        } while(compare_by(a[i], v, ch) > 0 && i <= u);
+        } while(i <= u && compare_by(a[i], v, ch) > 0);
 
         do {
             j--;

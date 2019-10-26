@@ -7,7 +7,7 @@
 #define EXT ".kp"
 
 #define BUFSIZE 8
-#define MAX_BITS 256
+#define MAX_BITS 64
 
 #define START 100
 #define PREFECT_BUF_SPACE 200
