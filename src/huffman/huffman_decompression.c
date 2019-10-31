@@ -1,18 +1,6 @@
-#include"huffman_decompression.h"
-#include"canonical_map.h"
-#include"../FILE_IO/File_IO.h"
-
-/* Functions Checks if correct extension file is given for 
- * decompression .Reason the Function can only decode that 
- * particular file which were encoded for that entenstion
- */
-
-void check_file_extention(char *file_name) {
-    if(strstr(file_name, EXT) == NULL) {
-        printf("The extiontion of the file is not supported for decompression ...\n");
-        exit(1);
-    }
-}
+#include "huffman_decompression.h"
+#include "canonical_map.h"
+#include "../FILE_IO/File_IO.h"
 
 /* Calls different Modules for required for decompression
  */
@@ -75,7 +63,7 @@ void decompress_by_huffman(char *file_name) {
     }  
 
     // Laslty decode the file with the tree re-generated 
-    decode_file(A, fd, file_name, file_size - 2); 
+    decode_file_huffman(A, fd, file_name, file_size - 2); 
 
     destroy_tree(A);
     free(code_table);
@@ -89,7 +77,7 @@ void decompress_by_huffman(char *file_name) {
  * of how much to read when we encounter reading of last BIT-STRING
  */
 
-void decode_file(tree A, int fd, char *file_name, int read_bytes) {
+void decode_file_huffman(tree A, int fd, char *file_name, int read_bytes) {
     tree *ptr;
     uint8_t BUFFER, FIRST_BIT = 0;    
     int index, fdd, last_bits = 0;
@@ -129,8 +117,8 @@ void decode_file(tree A, int fd, char *file_name, int read_bytes) {
     
     read(fd, &BUFFER, 1);
     read(fd, &last_bits, 1);
-    last_bits = MAX_BUF - last_bits;
     // Here last_bits tells number of bits to read for last BIT-STRING
+    last_bits = MAX_BUF - last_bits;
     
     // Get the result of the last BIT-STRING
     while(last_bits > 0) {
@@ -151,37 +139,9 @@ void decode_file(tree A, int fd, char *file_name, int read_bytes) {
     close(fd);
 }
 
-/* Tokenizes the file_name to get output in correct
- * folder with correct file_name.
+/* Removes the tree structure by freeing
+ * all memory allocated by malloc
  */
-
-void tokenize_file_name(char *ans, char *file_name) {
-    int len, i, start, end;
-    char temp, dummy[MAX] = {};
-
-    len = strlen(file_name);
-    len = len - strlen(EXT); 
-    i = 0;
-    while(len && file_name[len - 1] != '/') {
-        ans[i++] = file_name[len - 1];
-        len--;
-    }
-    ans[i] = '\0';
-    
-    start = 0;
-    end = strlen(ans) - 1;
-
-    while(start < end) {
-        temp = ans[start];
-        ans[start]  = ans[end];
-        ans[end] = temp;
-        start++;
-        end--;
-    }
-    strcat(dummy, RESULTS);
-    strcat(dummy, ans); 
-    strcpy(ans, dummy);
-}
 
 void destroy_tree(tree A) {
     del_tree(A.left);

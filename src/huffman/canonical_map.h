@@ -4,8 +4,6 @@
 #include<math.h>
 #include<inttypes.h>
 
-#define EXT ".kp"
-
 #define BUFSIZE 8
 #define MAX_BITS 64
 
@@ -38,10 +36,6 @@ void decimal_to_string(int num, char *str);
 
 void convert_and_append(int num, char *str, int l);
 
-void encode_file(codebook canonical_code[], int num_symbols, char *file_name);
-
 int search_codebook(codebook temp[], int num, char ch);
 
 void print_buffer(int num);
-
-

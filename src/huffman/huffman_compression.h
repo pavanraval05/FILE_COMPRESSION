@@ -16,3 +16,4 @@ void Get_Huffman_bit_strings(priority_quee *A, codebook *temp,int arr[], int ind
 
 void get_bit_string(char *str, int arr[], int index);
 
+void encode_file_huffman(codebook canonical_code[], int num_symbols, char *file_name);
