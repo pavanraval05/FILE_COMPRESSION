@@ -46,16 +46,11 @@ void create_hash_table(int max_size) {
 }
 
 void initialize_hash_table() {
-    char value[MAX_SEQUENCE], key[MAX_SEQUENCE];
+    char key[MAX_SEQUENCE];
     int i;
-    data temp; 
     for(i = 0; i < NUM_CHARS; i++) {
-        sprintf(value,"%d",i); 
         sprintf(key,"%c",(char)i); 
-        temp.data = (char *)malloc(sizeof(char ) * (strlen(value) + 1));
-        temp.key = (char *)malloc(sizeof(char) * (strlen(key) + 1));
-        strcpy(temp.data, value);
-        strcpy(temp.key, key);
+        add_in_hash_table(key, i); 
     }
 }
 
@@ -82,5 +77,17 @@ void add_in_hash_table(char *key , int num) {
     strcpy(temp.data, value);
     strcpy(temp.key, key);
     hsearch(temp, ENTER);
+}
+
+void print_buff(int num, int len) {
+    int arr[len];
+    for(int i = 0; i < len; i++) {
+        arr[len - i -1] = num & 01;
+        num = num >> 1;
+    }
+    for(int i = 0; i < len; i++) {
+        printf("%d\t", arr[i]);
+    }
+    printf("\n");
 }
 

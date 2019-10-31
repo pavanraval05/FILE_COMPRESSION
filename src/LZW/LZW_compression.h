@@ -5,10 +5,12 @@
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 #include "dictionary.h"
 
+
 #define ASCII_CHARS 256
-#define WRITE_BUF 8
+#define MAX_BUF 8
 
 #define START 100
 #define IN_DICT 200
@@ -18,5 +20,9 @@
 void compress_by_LZW(char *file_name);
 
 void encode_file_LZW(DICT *A, char *file_name);
+
+void write_buffer(char *key, int fd);
+
+void get_bit_strings(char str[],int num, int len);
 
 #endif

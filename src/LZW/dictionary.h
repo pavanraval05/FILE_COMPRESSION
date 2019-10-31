@@ -38,4 +38,6 @@ int search_in_hash_table(char *key);
 
 void add_in_hash_table(char *key , int value);
 
+void print_buff(int num, int len);
+
 #endif
