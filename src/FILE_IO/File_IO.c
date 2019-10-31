@@ -36,7 +36,7 @@ int freadchar(int fd, char *ch) {
 
     int i;
     i = read(fd, ch, 1);
-    return (i == 0) ? 0 : 1;
+    return (i == 0) ? 0 : i;
 }
 
 long int get_file_size(char *file_name) {
@@ -62,5 +62,49 @@ char *get_file_chars(int fd, long int file_size) {
         }
     }
 return arr;
+}
+
+/* Functions Checks if correct extension file is given for 
+ * decompression .Reason the Function can only decode that 
+ * particular file which were encoded for that entenstion
+ */
+
+void check_file_extention(char *file_name) {
+    if(strstr(file_name, EXT) == NULL) {
+        printf("The extiontion of the file is not supported for decompression ...\n");
+        exit(1);
+    }
+}
+
+/* Tokenizes the file_name to get output in correct
+ * folder with correct file_name.
+ */
+
+void tokenize_file_name(char *ans, char *file_name) {
+    int len, i, start, end;
+    char temp, dummy[MAX] = {};
+
+    len = strlen(file_name);
+    len = len - strlen(EXT); 
+    i = 0;
+    while(len && file_name[len - 1] != '/') {
+        ans[i++] = file_name[len - 1];
+        len--;
+    }
+    ans[i] = '\0';
+    
+    start = 0;
+    end = strlen(ans) - 1;
+
+    while(start < end) {
+        temp = ans[start];
+        ans[start]  = ans[end];
+        ans[end] = temp;
+        start++;
+        end--;
+    }
+    strcat(dummy, RESULTS);
+    strcat(dummy, ans); 
+    strcpy(ans, dummy);
 }
 

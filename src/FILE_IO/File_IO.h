@@ -5,6 +5,11 @@
 #include<sys/types.h>
 #include<unistd.h>
 #include<errno.h>
+#include<string.h>
+
+#define EXT ".kp"
+#define RESULTS "results/"
+#define MAX 128
 
 /* Contains the prototypes of the all the basic operations
  * required for the file input and output , examples 
@@ -23,4 +28,8 @@ int freadchar(int fd, char *ch);
 long int get_file_size(char *file_name);
 
 char *get_file_chars(int fd, long int file_size);
+
+void check_file_extention(char *file_name);
+
+void tokenize_file_name(char *ans, char *file_name);
 
