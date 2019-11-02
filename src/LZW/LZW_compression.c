@@ -52,7 +52,7 @@ void encode_file_LZW(DICT *A,char *file_name) {
                     temp[i] = str[i];   
                 }
                 temp[i] = '\0';
-                write_buffer(temp, fdc);
+                write_buffer(temp, fdc, 'n');
                 index++;
                 str[0] = str[strlen(str) - 1];
                 str[1] = '\0';
@@ -61,11 +61,12 @@ void encode_file_LZW(DICT *A,char *file_name) {
         }
         currstate = nextstate;
     }
-    write_buffer(str, fdc);
+    write_buffer(str, fdc, 'l');
     print_dictionary(*A, index);
+
 }
 
-void write_buffer(char *key, int fd) {
+void write_buffer(char *key, int fd, char ch) {
     int temp = 0;
     char str[MAX_SEQUENCE];
     static int bit_written = 0, curr_bit_len = BIT_LEN, BUFFER, index = 0;
@@ -73,14 +74,18 @@ void write_buffer(char *key, int fd) {
     temp = search_in_dictionary(key);
     get_bit_strings(str, temp, curr_bit_len);
     
-    printf("value and its bitstring and current bitlenght - %d %s %d\n",temp, str, curr_bit_len);
+    //printf("value and its bitstring and current bitlenght - %d %s %d\n",temp, str, curr_bit_len);
     
     if(temp == -1) {
         printf("Can't write buff in file, error in creating the dictionary ...\n");
         exit(1);
     }
+
+    //printf("bits written - %d and index %d\n",bit_written, index);
+
     while(bit_written < curr_bit_len) {
         for(;(bit_written < curr_bit_len) && (index < MAX_BUF); bit_written++, index++) {
+            //printf("index - %d\n",index);
             BUFFER = BUFFER << 1;
             if(str[bit_written] == '1') {
                 BUFFER++;
@@ -88,11 +93,20 @@ void write_buffer(char *key, int fd) {
         }  
         if(index == MAX_BUF) {
             write(fd, &BUFFER, 1); 
-            print_buff(BUFFER, 8);
+            //print_buff(BUFFER, 8);
             BUFFER = 0;
             index = 0;
         }
     }
+    if(ch == 'l' && index != MAX_BUF) {
+        //printf("Last call\n");
+        for(; index < MAX_BUF; index++) {
+            BUFFER = BUFFER << 1;
+        }
+        write(fd, &BUFFER, 1);
+        //print_buff(BUFFER, 8);
+    }
+    //printf("bits written - %d and index %d\n",bit_written, index);
     bit_written = 0;
 }
     

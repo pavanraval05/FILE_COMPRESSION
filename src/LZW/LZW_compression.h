@@ -21,7 +21,7 @@ void compress_by_LZW(char *file_name);
 
 void encode_file_LZW(DICT *A, char *file_name);
 
-void write_buffer(char *key, int fd);
+void write_buffer(char *key, int fd, char ch);
 
 void get_bit_strings(char str[],int num, int len);
 

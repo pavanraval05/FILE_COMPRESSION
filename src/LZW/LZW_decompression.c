@@ -26,9 +26,9 @@ void decode_file_LZW(char *file_name, DICT A) {
     curr[0] = '\0';
     index_dic = NUM_CHARS;
 
-    printf("%d\n",cur_len);
     while(freadchar(fd, &BUFFER)) {
         for(;(index < READ_BUF) && (bit_string_read < cur_len); index++) {
+            //printf("index - %d , bit_string_read = %d ,and bit value %d\n", index, bit_string_read, BUFFER & 128);
             if(BUFFER & 128) {
                 str[bit_string_read] = '1';
             }
@@ -42,31 +42,32 @@ void decode_file_LZW(char *file_name, DICT A) {
             str[bit_string_read] = '\0';
             temp = convert_string_to_decimal(str);
             if(temp == index_dic) {
-                printf("INDEX PROBLEM - index - %d curr and prev :%s",index_dic, curr);
+                //printf("INDEX PROBLEM - index - %d curr and prev :%s",index_dic, curr);
                 len = strlen(prev);
                 prev[len] = curr[0]; 
                 prev[len + 1] = '\0';
                 add_in_dictionary(&A, prev, index_dic);
                 write(fdd, prev, strlen(prev));
-                printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
+                //printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
                 index_dic++;
             }
             else {
                 strcpy(curr, A[temp].key);
                 write(fdd, curr, strlen(curr));
-                printf("index - %d  dict value (curr):%s having len %d\n",temp, curr, strlen(prev));
+                //printf("index - %d  dict value (curr):%s having len %d\n",temp, curr, strlen(prev));
                 if(strlen(prev) != 0) {
                     len = strlen(prev); 
                     prev[len] = curr[0];
                     prev[len + 1] = '\0';
                     add_in_dictionary(&A, prev, index_dic);
-                    printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
+                    //printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
                     index_dic++;
                 } 
                 strcpy(prev, curr);
             } 
             bit_string_read = 0;
             for(;index < READ_BUF; index++) {
+                //printf("index - %d , bit_string_read = %d ,and bit value %d\n", index, bit_string_read, BUFFER & 128);
                 if(BUFFER & 128) {
                     str[bit_string_read] = '1';
                 }
