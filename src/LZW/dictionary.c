@@ -33,7 +33,7 @@ int search_in_dictionary(char *key) {
 void print_dictionary(DICT A, int size) {
     int i = 0;
     printf("DICTIONARY has size %d\nINDEX\tKEY\n",size);
-    for(i = 0; i < size; i++) {
+    for(i = NUM_CHARS; i < size; i++) {
         printf("%d %s\n", A[i].value, A[i].key); 
     }
 }

@@ -73,7 +73,7 @@ void write_buffer(char *key, int fd) {
     temp = search_in_dictionary(key);
     get_bit_strings(str, temp, curr_bit_len);
     
-    printf("value and its bitstring - %d %s\n",temp, str);
+    printf("value and its bitstring and current bitlenght - %d %s %d\n",temp, str, curr_bit_len);
     
     if(temp == -1) {
         printf("Can't write buff in file, error in creating the dictionary ...\n");

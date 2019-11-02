@@ -9,7 +9,7 @@ void decompress_by_LZW(char *file_name) {
 
 void decode_file_LZW(char *file_name, DICT A) {
     int fd, fdd;
-    char ch, str[25], prev[25], curr[25], output_file[100];
+    char str[25], prev[25], curr[25], output_file[100];
 
     check_file_extention(file_name);
     tokenize_file_name(output_file, file_name);
@@ -25,7 +25,8 @@ void decode_file_LZW(char *file_name, DICT A) {
     prev[0] = '\0';
     curr[0] = '\0';
     index_dic = NUM_CHARS;
-    
+
+    printf("%d\n",cur_len);
     while(freadchar(fd, &BUFFER)) {
         for(;(index < READ_BUF) && (bit_string_read < cur_len); index++) {
             if(BUFFER & 128) {
@@ -40,19 +41,30 @@ void decode_file_LZW(char *file_name, DICT A) {
         if(bit_string_read == cur_len) {
             str[bit_string_read] = '\0';
             temp = convert_string_to_decimal(str);
-            strcpy(curr, A[temp].key);
-            write(fdd, curr, strlen(curr));
-            //printf("index - %d  dictionary value - %s\n",temp, curr);
-            if(strlen(prev) != 0) {
-                len = strlen(prev); 
-                prev[len] = curr[0];
+            if(temp == index_dic) {
+                printf("INDEX PROBLEM - index - %d curr and prev :%s",index_dic, curr);
+                len = strlen(prev);
+                prev[len] = curr[0]; 
                 prev[len + 1] = '\0';
                 add_in_dictionary(&A, prev, index_dic);
-                //printf("Value added in dictionary will have index %d and key %s\n", index_dic, prev);
+                write(fdd, prev, strlen(prev));
+                printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
                 index_dic++;
+            }
+            else {
+                strcpy(curr, A[temp].key);
+                write(fdd, curr, strlen(curr));
+                printf("index - %d  dict value (curr):%s having len %d\n",temp, curr, strlen(prev));
+                if(strlen(prev) != 0) {
+                    len = strlen(prev); 
+                    prev[len] = curr[0];
+                    prev[len + 1] = '\0';
+                    add_in_dictionary(&A, prev, index_dic);
+                    printf("In dict will have index %d and key(prev):%s having len %d\n",index_dic,prev,strlen(prev));
+                    index_dic++;
+                } 
+                strcpy(prev, curr);
             } 
-            strcpy(prev, curr);
-            
             bit_string_read = 0;
             for(;index < READ_BUF; index++) {
                 if(BUFFER & 128) {
@@ -72,6 +84,7 @@ void decode_file_LZW(char *file_name, DICT A) {
             BUFFER = 0;
         } 
     }
+    print_dictionary(A, index_dic);
 }
 
 int convert_string_to_decimal(char *str) {
@@ -84,5 +97,4 @@ int convert_string_to_decimal(char *str) {
     }
     return temp;
 }
-
 
