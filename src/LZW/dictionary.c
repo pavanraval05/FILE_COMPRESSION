@@ -33,7 +33,7 @@ int search_in_dictionary(char *key) {
 void print_dictionary(DICT A, int size) {
     int i = 0;
     printf("DICTIONARY has size %d\nINDEX\tKEY\n",size);
-    for(i = NUM_CHARS; i < size; i++) {
+    for(i = 0; i < size; i++) {
         printf("%d %s\n", A[i].value, A[i].key); 
     }
 }
@@ -77,6 +77,35 @@ void add_in_hash_table(char *key , int num) {
     strcpy(temp.data, value);
     strcpy(temp.key, key);
     hsearch(temp, ENTER);
+}
+
+void update_dictionary(DICT *A, int index) {
+    int curr_size, next_size,i;
+    dictionary *temp;
+    data *ptr, item;
+    curr_size = index + 1;
+    char str[MAX_SEQUENCE];
+    for(i = 1; i < curr_size; i++) {
+        item.key = (*A)[i].key;
+        ptr = hsearch(item, FIND);
+        free(ptr->key);
+    }    
+    hdestroy();
+    
+    next_size = curr_size << 1;
+    temp = realloc((*A), sizeof(dictionary) * next_size);
+    if(temp == NULL) {
+        perror("The error is :");
+        exit(1);
+    }
+    (*A) = temp;
+    
+    create_hash_table(next_size * (1.25));
+    initialize_hash_table();
+
+    for(i = NUM_CHARS; i < next_size; i++) {
+        add_in_hash_table((*A)[i].key ,i); 
+    }
 }
 
 void print_buff(int num, int len) {

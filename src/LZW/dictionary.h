@@ -10,8 +10,8 @@
 #define NUM_CHARS 256
 #define MAX_SEQUENCE 128
 
-#define BIT_LEN 12
-#define DICT_SIZE ((2 << BIT_LEN) - 1)
+#define BIT_LEN 9
+#define DICT_SIZE ((1 << BIT_LEN))
 
 typedef struct dictionary {
     int value;
@@ -37,6 +37,8 @@ void initialize_hash_table();
 int search_in_hash_table(char *key);
 
 void add_in_hash_table(char *key , int value);
+
+void update_dictionary(DICT *A, int index);
 
 void print_buff(int num, int len);
 
