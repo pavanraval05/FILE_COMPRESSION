@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     if(argc == 1) {
         caller_flag = -1; 
     }
-    while((c = getopt(argc, argv, "cdh:l:i:R")) != -1) {
+    while((c = getopt(argc, argv, "cdh:l:i:")) != -1) {
         switch(c) {
             case 'c':
                 caller_flag |= COMP;
@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
                 break;
             case 'i':
                 caller_flag |= DCT;
+                file_name = optarg;
                 break;
             case 'R':
                 caller_flag |= RECUR;

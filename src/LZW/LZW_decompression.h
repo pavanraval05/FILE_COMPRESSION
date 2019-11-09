@@ -1,3 +1,6 @@
+#ifndef LZW_DECOMPRESSION_H
+#define LZW_DECOMPRESSION_H 1
+
 #include<stdio.h>
 #include<stdlib.h>
 #include "dictionary.h"
@@ -10,3 +13,4 @@ int convert_string_to_decimal(char *str);
 
 void decode_file_LZW(char *file_name, DICT *A);
 
+#endif

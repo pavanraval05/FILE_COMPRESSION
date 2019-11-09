@@ -179,7 +179,7 @@ void get_bit_string(char *str, int arr[], int index) {
 
 void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name) {
     uint8_t BUFFER;
-    int fd, fdc, index = 0, bit_string_index = 0, pos;
+    int fd, fdc, index = 0, bit_string_index = 0, pos, temp;
     int last_bits = 0, cur_state, next_state, len, x, i;
     char ch, str[MAX_BITS];
     
@@ -218,8 +218,14 @@ void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name
     while(cur_state != END) {
         switch(cur_state) {
             case START:
-                if(freadchar(fd, &ch) != 0) {
-                    pos = search_codebook(code_table, num_symbols, ch); 
+                if(read(fd, &ch, 1) != 0) {
+                    
+                    temp = (int)ch;
+                    if(temp < 0) {
+                        temp = NUM_CHARS / 2 - temp - 1;
+                    }
+                    pos = search_codebook(code_table, num_symbols, (char)temp); 
+
                     strcpy(str, code_table[pos].str);
                     len = strlen(str);
                     if(len - index < BUFSIZE) {
@@ -245,8 +251,14 @@ void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name
                 write(fdc, &BUFFER, 1);
                 index = 0;
                 bit_string_index = 0;
-                if(freadchar(fd, &ch) != 0) {
-                    pos = search_codebook(code_table, num_symbols, ch); 
+                if(read(fd, &ch, 1) != 0) {
+                    
+                    temp = (int)ch;
+                    if(temp < 0) {
+                        temp =  NUM_CHARS / 2 - 1 - temp; 
+                    }
+                    pos = search_codebook(code_table, num_symbols, (char)temp); 
+
                     strcpy(str, code_table[pos].str);
                     len = strlen(str);
                     if(len - index < BUFSIZE) {
@@ -269,9 +281,15 @@ void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name
                     BUFFER = BUFFER << 1;
                     BUFFER |= x;
                 }
-                if(freadchar(fd, &ch) != 0) {
+                if(read(fd, &ch, 1) != 0) {
                     bit_string_index = 0;
-                    pos = search_codebook(code_table, num_symbols, ch); 
+                    
+                    temp = (int)ch;
+                    if(temp < 0) {
+                        temp = NUM_CHARS / 2 - temp - 1;
+                    }
+                    pos = search_codebook(code_table, num_symbols, (char)temp); 
+                    
                     strcpy(str, code_table[pos].str);
                     len = strlen(str);
                     if(len + index < BUFSIZE) {
@@ -320,4 +338,7 @@ void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name
     }
     // Write how many bits are to be read for last bit stream.
     write(fdc, &last_bits, 1);
+    close(fd);
+    close(fdc);
 } 
+

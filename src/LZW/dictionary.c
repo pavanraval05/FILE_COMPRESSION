@@ -1,5 +1,8 @@
 #include "dictionary.h"
 
+/* Function creates a common dictionary that both 
+ * Encoder and Decoder initially need.
+ */
 void initialize_dictionary(DICT *A, int size) {
     dictionary *temp;
     int i;
@@ -18,6 +21,9 @@ void initialize_dictionary(DICT *A, int size) {
     initialize_hash_table();
 }
 
+/* Adds a key corresponding to creatin index
+ * in dictionary.
+ */
 void add_in_dictionary(DICT *A, char *key, int index) {
     dictionary temp;    
     strcpy(temp.key, key);
@@ -26,10 +32,15 @@ void add_in_dictionary(DICT *A, char *key, int index) {
     add_in_hash_table(key, index); 
 }
 
+/* Searches for a key value in dictionary.
+ */
+
 int search_in_dictionary(char *key) {
     return search_in_hash_table(key);
 }
 
+/* Prints a dictionary.
+ */
 void print_dictionary(DICT A, int size) {
     int i = 0;
     printf("DICTIONARY has size %d\nINDEX\tKEY\n",size);
@@ -38,12 +49,19 @@ void print_dictionary(DICT A, int size) {
     }
 }
 
+/* Creates a hash table of given size
+ */
+
 void create_hash_table(int max_size) {
     if(hcreate(max_size) == 0) {
         fprintf(stderr, "There is a error in creating a hash table\n");
         exit(1);
     }
 }
+
+/* Initializes the hash table with the codebook 
+ * used commonly by encoder and decoder
+ */
 
 void initialize_hash_table() {
     char key[MAX_SEQUENCE];
@@ -53,6 +71,9 @@ void initialize_hash_table() {
         add_in_hash_table(key, i); 
     }
 }
+
+/* Seaches in the hash table for a element.
+ */
 
 int search_in_hash_table(char *key) {
     data *ptr, temp;
@@ -67,6 +88,10 @@ int search_in_hash_table(char *key) {
     }
 }
 
+/* Adds a element and its corresponding key 
+ * in the hash table.
+ */
+
 void add_in_hash_table(char *key , int num) {
     data temp;
     char value[MAX_SEQUENCE];
@@ -79,16 +104,26 @@ void add_in_hash_table(char *key , int num) {
     hsearch(temp, ENTER);
 }
 
+/* Updates the dictionary size so that it can dynamically
+ * Increase in size.
+ */
+
 void update_dictionary(DICT *A, int index) {
     int curr_size, next_size,i;
     dictionary *temp;
     data *ptr, item;
-    curr_size = index + 1;
-    char str[MAX_SEQUENCE];
-    for(i = 1; i < curr_size; i++) {
+    if(index % 2 == 1) {
+        curr_size = index + 1;
+    }
+    else {
+        curr_size = index;
+    }
+    for(i = 1; i < index; i++) {
         item.key = (*A)[i].key;
         ptr = hsearch(item, FIND);
-        free(ptr->key);
+        if(ptr != NULL) {
+            free(ptr->key);
+        }
     }    
     hdestroy();
     
@@ -99,11 +134,11 @@ void update_dictionary(DICT *A, int index) {
         exit(1);
     }
     (*A) = temp;
-    
+
     create_hash_table(next_size * (1.25));
     initialize_hash_table();
 
-    for(i = NUM_CHARS; i < next_size; i++) {
+    for(i = NUM_CHARS; i < index; i++) {
         add_in_hash_table((*A)[i].key ,i); 
     }
 }

@@ -35,7 +35,7 @@ void decompress_by_huffman(char *file_name) {
     
     // Map the bit lengths to get canonical codes.
     canonical_codes = map_bit_strings(code_table, num_chars);
-    
+
     // Form a tree based on the canonical codes.
     // A is the root node.
     A.left = A.right = NULL;
@@ -80,7 +80,7 @@ void decompress_by_huffman(char *file_name) {
 void decode_file_huffman(tree A, int fd, char *file_name, int read_bytes) {
     tree *ptr;
     uint8_t BUFFER, FIRST_BIT = 0;    
-    int index, fdd, last_bits = 0;
+    int index, fdd, last_bits = 0, temp;
     char decomp_file[MAX];  
     
     // Tokenize the file_name to store result in appropiate folder
@@ -108,7 +108,12 @@ void decode_file_huffman(tree A, int fd, char *file_name, int read_bytes) {
             BUFFER = BUFFER << 1;
             // Checks if node is a leaf
             if(!ptr->left && !ptr->right) {
-                write(fdd, &(ptr->ch), 1);
+                temp = (int)ptr->ch;
+                // For signed characters
+                if(temp < 0) {
+                    temp = 127 - temp; 
+                }
+                write(fdd, &temp, 1);
                 ptr = &A;
             }
         }
@@ -117,6 +122,7 @@ void decode_file_huffman(tree A, int fd, char *file_name, int read_bytes) {
     
     read(fd, &BUFFER, 1);
     read(fd, &last_bits, 1);
+
     // Here last_bits tells number of bits to read for last BIT-STRING
     last_bits = MAX_BUF - last_bits;
     

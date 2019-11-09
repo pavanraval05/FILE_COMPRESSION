@@ -13,6 +13,17 @@
 #define BIT_LEN 9
 #define DICT_SIZE ((1 << BIT_LEN))
 
+/* Dictionary Data Structure is used inoder to 
+ * store values corresponding to certain keys. 
+ * Gives a fast method to check if a value is 
+ * present or not based on the key.
+ */
+
+/* Note inoder to implement Dictionary either hasing
+ * or trie data structure can be used. Standard C
+ * Library has set of Hashing Function for this task.
+ */
+
 typedef struct dictionary {
     int value;
     char key[MAX_SEQUENCE];

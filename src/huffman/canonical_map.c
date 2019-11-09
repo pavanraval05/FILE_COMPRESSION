@@ -21,11 +21,15 @@ void print_buffer(int num) {
  */
 
 int search_codebook(codebook temp[], int num, char ch) {
-    int i;
+    int i = -1;
     for(i = 0; i < num; i++) {
         if(temp[i].symbol == ch) {
             return i;
         }   
+    }
+    if(i == -1) {
+        printf("There is problem - couldn't track in codebook\n");
+        exit(1);
     }
     return -1;
 }

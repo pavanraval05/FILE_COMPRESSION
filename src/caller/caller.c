@@ -3,6 +3,7 @@
 #include "../huffman/huffman_decompression.h"
 #include "../LZW/LZW_compression.h"
 #include "../LZW/LZW_decompression.h"
+#include "../DCT/DCT_compression.h"
 
 
 void caller_function(int call_algo, char *file_name) {
@@ -14,7 +15,7 @@ void caller_function(int call_algo, char *file_name) {
             compress_by_LZW(file_name);
             break;
         case COMP_DCT :
-            printf("Here compression by DCT will be done\n");
+            compress_by_DCT(file_name);
             break;
         case DECOMP_HUFFMAN :
             decompress_by_huffman(file_name);
