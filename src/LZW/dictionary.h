@@ -10,7 +10,7 @@
 #define NUM_CHARS 256
 #define MAX_SEQUENCE 128
 
-#define BIT_LEN 9
+#define BIT_LEN 13
 #define DICT_SIZE ((1 << BIT_LEN))
 
 /* Dictionary Data Structure is used inoder to 

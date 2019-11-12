@@ -184,7 +184,7 @@ void encode_file_huffman(codebook code_table[], int num_symbols, char *file_name
     char ch, str[MAX_BITS];
     
     printf("Encoding %s using huffman algorithm...\n",file_name);
-
+    
     open_file_read(&fd, file_name);
     
     //ADD extension for indicating compressed file_name

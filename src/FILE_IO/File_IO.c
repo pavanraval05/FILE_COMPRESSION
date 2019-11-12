@@ -4,6 +4,7 @@ void open_file_read(int *fd, char *file_name) {
     
     *fd = open(file_name, O_RDONLY, S_IRUSR | S_IWUSR);
     if(*fd == -1) {
+        printf("The filename is %s\n", file_name);
         perror("The error is - ");
         exit(errno);
     }
@@ -12,6 +13,7 @@ void open_file_read(int *fd, char *file_name) {
 void open_file_write(int *fd, char *file_name) { 
     *fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if(*fd == -1) {
+        printf("The filename is %s\n", file_name);
         perror("The error is - ");
         exit(errno);
     }
