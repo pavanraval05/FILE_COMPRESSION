@@ -22,6 +22,7 @@ SOURCE = 	$(SRC)/main.c\
 	$(SRC)/$(LZW)/LZW_decompression.c\
 	$(SRC)/$(LZW)/dictionary.c\
 	$(SRC)/$(DCT)/DCT_compression.c\
+	$(SRC)/$(DCT)/DCT_decompression.c\
 	$(SRC)/$(DCT)/Quantized.c\
 	$(SRC)/$(FILE_IO)/File_IO.c\
 	$(SRC)/$(CALLER)/caller.c

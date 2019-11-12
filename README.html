@@ -1,24 +1,17 @@
-<h2>MIS - 111803172</h2>
-
-<h2>Name - Kishan Patel</h2>
-
-<h2>Div - 2</h2>
-
-<h2>Batch - S4</h2>
-
-<h3>PROJECT NAME</h3>
+<h3>PROJECT</h3>
 
 <ul>
 <li>FILE COMPRESSION ALGORITHMS -
 <ul>
 <li><strong>Huffman compression</strong></li>
 <li><strong>LZW compression</strong></li>
+<li><strong>DCT</strong></li>
 </ul></li>
 </ul>
 
 <hr />
 
-<h1>Aim of the project -</h1>
+<h3>Aim of the project -</h3>
 
 <ul>
 <li>Implement above mentioned compression algorithms and analyze time complexity, compression ratio, file type on which algorithms work, etc </li>
@@ -26,45 +19,15 @@
 <li>Along with this the aim of project also to implement file compression algorithms involved for image file compression.</li>
 </ul>
 
-<h2>Overview of the project -</h2>
+<h3>Usage of the code -</h3>
 
 <ul>
-<li><p>The compression algorithms are classified into mainly two types - </p>
-
-<ul>
-<li>Lossless compression </li>
-<li>Lossy compression</li>
-</ul></li>
-<li><p><em>Lossless compression</em> involves compression of data in which no information is lost in the process of data compression. Examples are Huffman Algorithm , LZ77 , LZ78, LZW ,Arithmetic coding , etc.   </p></li>
-<li><p><em>Lossy compression</em> involves compression of data in which some information is lost in the process of data compression. Examples are discrete Cosine transform , quantization, etc</p></li>
-</ul>
-
-<h2>Huffman Compression Algorithm -</h2>
-
-<ul>
-<li>Algorithm works by creating binary tree of nodes. The tree is created according to the frequency comparison of each character.</li>
-<li>Thus we can say that most repeating character is present near to the root node and the least repeating character will act as a leaf in the binary tree. </li>
-<li>Thus we can say that each character has can be represented as a unique bit pattern and thus this bit pattern can be stored and resulting storage of bits will be the compressed form of the original data.</li>
-<li>Thus in order to decompress the data we need the tree to decode the data and get the original data back.</li>
-<li><p>In this process no information or set of data is lost thus Huffman coding comes under the category of lossless compression algorithm.</p></li>
-<li><p>functions required are - basic file I/O , sorting algorithms </p></li>
-<li>DATA STRUCTURE TO BE USED - tree, heap, and priority queue etc. </li>
-</ul>
-
-<h2>LZW Algorithm -</h2>
-
-<ul>
-<li>Its is a Dynamic Dictionary technique. Algorithm is used when there are large phrases and sentences to decode. </li>
-<li>It works on reading a sequence then grouping of symbols and grouping symbols into strings and converting string into codes.</li>
-<li>Make use of code table of suitable length and assign 0-255 indexes with the ASCII character set </li>
-<li>Compression starts using code entries from 256 index.</li>
-<li>More the similarity in strings more is the compression. </li>
-<li>Thus in this process a dictionary gets created for representing the sequence of the codes. Thus while decoding we make use of this dictionary to decompress the data back.</li>
-<li>High Compression ratio is obtained for large text files. </li>
-</ul>
-
-<h2>FURTHER TASK -</h2>
-
-<ul>
-<li>Will try to implement DCT (Discrete Cosine Transformation) as a mean of lossy compression technique. This Algorithm is widely used in application based software like Whatsapp and also used in JPEG converters.</li>
+<li>>> ./kishan -[options] file-name.</li>
+<li>The options are -c for compression and -d for decompression.</li>
+<li>The next sequence tells which algo to implement for the options taken.</li>
+<li>h : huffman compression algorithm.</li>
+<li>l : LZW. </li>
+<li>i : DCT (for image compression only).</li>
+<li>example - >> ./kishan -ch file.txt 
+           (This tells to compress the file using huffman encoding)</li>
 </ul>
