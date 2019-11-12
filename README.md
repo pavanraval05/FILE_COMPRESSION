@@ -25,3 +25,12 @@
             >> ./kishan -dl file.txt.kp
                 (This tells to decompress the file using LZW algorithm) NOTE - Should only give files with .kp extension
 
+## Some important points to note - 
+
+* The algorithms huffman and LZW implemented work only for text files. However huffman might work in binary files like PDF of GIF formats. However compression may not be achieved in such files.
+
+* LZW is restricted upto 20kb text file.
+
+* DCT algorithm needs to only .bmp files , reason is it is very difficult to read file formats in jpeg or jpg or even png
+  file formats. BMP files are easily readable with langauge like C without any external library.
+
