@@ -1,7 +1,7 @@
-## MIS - 111803172       
-## Name - Kishan Patel
-## Div - 2               
-## Batch - S4
+## MIS - 181091      
+## Name - Pavan Raval
+##              
+## Batch - B2
 
 ### PROJECT NAME
 * FILE COMPRESSION ALGORITHMS -
