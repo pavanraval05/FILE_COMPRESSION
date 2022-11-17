@@ -14,7 +14,7 @@
 
 ### Usage of the code -
 
-* >> ./kishan -[options] file-name.
+* >> ./pavan -[options] file-name.
 * The options are -c for compression and -d for decompression.
 * The next sequence tells which algo to implement for the options taken.
 * h : huffman compression algorithm.
