@@ -20,7 +20,7 @@
 * h : huffman compression algorithm.
 * l : LZW. 
 * i : DCT (for image compression only).
-* example - >> ./kishan -ch file.txt 
+* example - >> ./pavan -ch file.txt 
                (This tells to compress the file using huffman encoding)
             >> ./kishan -dl file.txt.kp
                 (This tells to decompress the file using LZW algorithm) NOTE - Should only give files with .kp extension
